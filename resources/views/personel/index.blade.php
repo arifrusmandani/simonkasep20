@@ -17,7 +17,6 @@
                             <th>HP</th>
                             <th>Instansi</th>
                             <th>Aksi</th>
-
                         </tr>
                     </thead>
                     <tfoot>

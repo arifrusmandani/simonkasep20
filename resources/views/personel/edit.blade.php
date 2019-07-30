@@ -15,8 +15,7 @@
                         <div class="col-md-9">
 
                                 <div class="row">
-                                   
-                                      
+
                                         {{-- <div class="controls">
                                           
                                             <input type="text" class="form-control" value="{{Auth::user()->id}}" name="user_id" hidden>
