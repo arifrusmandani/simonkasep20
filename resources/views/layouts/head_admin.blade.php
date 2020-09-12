@@ -10,8 +10,8 @@
     <meta name="author" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.icon')}}">
-    <title>SIBAPEM @yield('title')</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/favicon.ico')}}">
+    <title>SIMon KaSeP @yield('title')</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/jasny-bootstrap.min.css')}}" rel="stylesheet">

@@ -24,7 +24,7 @@
                 <!-- Logo -->
                 <!-- ============================================================== -->
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">
+                    <a class="navbar-brand" href="#">
                         <!-- Logo icon --><b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
@@ -175,7 +175,7 @@
             <!-- ============================================================== -->
             <!-- footer -->
             <!-- ============================================================== -->
-            <footer class="footer"> © {{date('Y')}} Material Pro Admin </footer>
+            <footer class="footer"> © {{date('Y')}} PPPPTK TK & PLB Bandung </footer>
             <!-- ============================================================== -->
             <!-- End footer -->
             <!-- ============================================================== -->

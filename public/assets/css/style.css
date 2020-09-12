@@ -74,8 +74,15 @@ Global Styles body color: #67757c
 *******************/
 * {
   outline: none; }
-
+.modal-full {
+    min-width: 100%;
+    margin: 0;
+}
+.m-t-min-20{
+    margin-top: -20px;
+}
 body {
+  zoom: 80%;
   background: #fff;
   font-family: "Poppins", sans-serif;
   margin: 0;
@@ -549,7 +556,8 @@ Rounds
   line-height: 65px;
   width: 60px;
   height: 60px;
-  font-size: 30px; }
+  font-size: 30px;
+  padding-top: 13px; }
 
 .round.round-info {
   background: #1e88e5; }

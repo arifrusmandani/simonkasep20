@@ -6,7 +6,7 @@
         <h3 class="text-themecolor">Kelola Bapem</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-            <li class="breadcrumb-item active">Bapem</li>
+            <li class="breadcrumb-item active">Sasaran</li>
         </ol>
     </div>
 </div>
@@ -22,28 +22,89 @@
 	<span class="help-block text-danger">{{ $errors->first('file') }}</span>
 
  <div class="row">
-    <div class="col-12 m-t-10">
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-info"><i class="mdi mdi-google-maps"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-light">{{$jmlkabkot}}</h3>
+                                        <h5 class="text-muted m-b-0">Jumlah Kab/Kot</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-warning"><i class="mdi mdi-target"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">{{$jmlcapaiansssrn}}/<strong>{{$jmlsasaran}}</strong></h3>
+                                        <h5 class="text-muted m-b-0">Jumlah Sasaran</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-primary"><i class="ti-wallet"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">Rp. {{number_format($jmlrupiah,2,",",".")}}</h3>
+                                        <h5 class="text-muted m-b-0">Total Nilai</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round round-lg align-self-center round-danger"><i class="mdi mdi-cart-outline"></i></div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0 font-lgiht">Rp. {{number_format($jmlcapaiannilai,2,",",".")}}</h3>
+                                        <h5 class="text-muted m-b-0">Total Nilai Keluar</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                </div>
 
        <div class="card">
-                            <div class="card-body p-b-0">
+                            <div class="card-body">
                                 {{-- <h4 class="card-title">Customtab2 Tab</h4> --}}
                                 {{-- <h6 class="card-subtitle">Use default tab with class <code>customtab</code></h6> --}}
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs customtab2" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Personel</span></a> </li>
-                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Sasaran</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#home7" role="tab"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Personel LPD</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile7" role="tab"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Sasaran</span></a> </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages7" role="tab"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">Dokumen Pemberian</span></a> </li>
                                     
                                 </ul>
                                 <!-- Tab panes -->
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="home7" role="tabpanel">
+                                    <div class="tab-pane" id="home7" role="tabpanel">
                                         
                                             <div class="table-responsive m-t-10">
+                                            @php
+                                            $adminuser = array('administrator','pengguna')
+                                            @endphp
+                                            @role($adminuser)
                                             <a href="{{ route("personel.create") }}"> <button class="btn btn-block btn-md btn-success" type="submit">
                                             <i class="fa fa-user-plus"></i>
                                             TAMBAH PERSONEL
                                             </button></a>
+                                            @endrole
 							                <table id="myTable2" class="table table-bordered table-striped m-t-10">
 							                    <thead>
 							                        <tr>
@@ -89,8 +150,13 @@
                                                           data-target="#detailPersonel" data-original-title="Detail"><i class="fa fa-eye"></i></a> --}}
                                                           <a href="#" value="{{ action('PersonelController@show',$bapem->id) }}" class="btn btn-xs btn-info modalMd" title="Detail" data-toggle="modal" data-target="#modalMd"><i class="fa fa-eye"></i></a>
                                                           {{-- <a href="{{route('personel.show',$bapem->id)}}" class="btn btn-show btn-primary btn-sm" title="Detail"><i class="fa fa-eye"></i></a> --}}
+                                                          @php
+                                                          $adminuser = array('administrator','pengguna');
+                                                          @endphp
+                                                          @role($adminuser)
 							                              <a href="/personel/{{$bapem->id}}/edit" class="btn btn-warning btn-sm" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-edit"></i></a>
 							                              <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button>
+                                                          @endrole
                                                       </form>
 							                            </td>
 							                        </tr>
@@ -101,7 +167,7 @@
 							            </div>
                                         
                                     </div>
-                                    <div class="tab-pane" id="profile7" role="tabpanel">
+                                    <div class="tab-pane active" id="profile7" role="tabpanel">
                                     	<div class="table-responsive m-t-10">
                                     	@role('administrator')
                                     		<button href="#" class="btn btn-block btn-md btn-danger" data-toggle="modal" data-target="#addSasaran">
@@ -113,24 +179,28 @@
 						                    <thead>
 						                        <tr>
 						                            <th>No</th>
-						                            <th>Type Bapem</th>
-						                            <th>Penerima Bapem</th>
+						                            <th>Type</th>
+<!--						                            <th>Penerima Bapem</th>-->
 						                            <th>Area Bapem</th>
 						                            <th>Sasaran</th>
+                                                    <th>Capaian</th>
 						                            <th>Satuan</th>
 						                            <th>Rupiah</th>
+                                                    <th>Capaian</th>
 						                            <th>Aksi</th>
 						                        </tr>
 						                    </thead>
 						                    <tfoot>
 						                        <tr>
 						                            <th>No</th>
-						                            <th>Type Bapem</th>
-						                            <th>Penerima Bapem</th>
+						                            <th>Type</th>
+<!--						                            <th>Penerima Bapem</th>-->
 						                            <th>Area Bapem</th>
 						                            <th>Sasaran</th>
+                                                    <th>Capaian</th>
 						                            <th>Satuan</th>
 						                            <th>Rupiah</th>
+                                                    <th>Capaian</th>
 						                            <th>Aksi</th>
 						                        </tr>
 						                    </tfoot>
@@ -144,24 +214,27 @@
 												
 						                        <tr>
 						                            <td>{{$no++}}</td>
-						                            <td>@if ($row->tipe_bapem == 1)
-														 	Penguatan Pengawas
+						                            <td>@if ($row->tipe_bapem == "Penguatan KS")
+														 	Penguatan KS
 														@elseif ($row->tipe_bapem == 2)
 															Zonasi PKP
 														@else 
 															PKB
 														@endif
 													</td>
-						                            <td>{{$row->penerima_bapem}}</td>
+						                      {{--  <td>{{$row->penerima_bapem}}</td> --}}
 						                            <td>{{$row->area_bapem}}</td>
 						                            <td>{{$row->sasaran}}</td>
+                                                    <th>{{$row->capaian}}</th>
 						                            <td>{{$row->satuan}}</td>
-						                            <td>{{$row->rupiah_bapem}}</td>
+						                            <td>{{number_format($row->rupiah_bapem,2,",",".")}}</td>
+                                                    <th>{{number_format($row->capaian_nilai,2,",",".")}}</th>
 						                            <td>
-						                            	<form action="{{ route('sasaran.destroy', $row->id) }}" method="POST">
+						                            	<form action="{{ route('sasaran.destroy', $row->ssrn_id) }}" method="POST">
                                                       @csrf
                                                       <input type="hidden" name="_method" value="DELETE">
-						                              <a href="{{route ('sasaran.show',$row->id)}}" class="btn btn-primary btn-sm"data-toggle="tooltip" data-original-title="Lihat Pertanggung Jawaban"><i class="fa fa-eye"></i></a>
+						                              <a href="{{route ('sasaran.show',['ssrn_id'=>$row->ssrn_id])}}" class="btn btn-primary btn-sm"data-toggle="tooltip" data-original-title="Detail Sasaran"><i class="fa fa-eye"></i></a>
+                                                      @role('administrator')
                                                       <a href="#" class="btn btn-warning btn-sm" data-toggle="modal" 
                                                           data-myuser="{{$row->user_id}}"
                                                           data-mytype="{{$row->tipe_bapem}}"
@@ -170,9 +243,9 @@
                                                           data-mysasaran="{{$row->sasaran}}"
                                                           data-mysatuan="{{$row->satuan}}"
                                                           data-myrupiah="{{$row->rupiah_bapem}}"
-                                                          data-mysasaranid="{{$row->id}}"
+                                                          data-mysasaranid="{{$row->ssrn_id}}"
                                                           data-target="#editSasaran" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                          @role('administrator')
+                                                          
                                                           <button onclick="return confirm('Anda Yakin Ingin Menghapus?')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button>
                                                           @endrole
                                                           </form>
@@ -183,6 +256,7 @@
 						                        </tr>
 
 						                        @endforeach
+
 						                    </tbody>
 						                </table>
 						            </div>
@@ -215,7 +289,10 @@
 							                            <td>{{$no++}}</td>
 							                            <td>{{$dok->nama_dokumen}}</td>
 							                            <td>{{$dok->catatan}}</td>
-                                                        <td><a href="{{asset('files/'.$dok->file)}}" target="_blank">{{$dok->file}}</a></td>
+                                                        <td>
+                                                        <a href="" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#lihatdok"
+                                                          data-vlaporan="{{asset('files/'.$dok->file)}}">{{$dok->file}}</a>
+                                                        </td>
 							                            <td>
                                                         <form action="{{ route('dokpem.destroy', $dok->pem_id) }}" method="POST">
                                                       @csrf
@@ -223,13 +300,13 @@
                                                       	  
 							                              <a href="{{asset('files/'.$dok->file)}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Download"><i class="fa fa-download"></i></a>
 							                              @role('administrator')
-							                              <a class="btn btn-warning btn-sm" data-toggle="modal"  
+							                              <a href="" class="btn btn-warning btn-sm" data-toggle="modal"  
 							                                data-mynama="{{$dok->kode_dokumen}}" 
 							                                data-mycatatan="{{$dok->catatan}}"
 							                                data-mydokpemid="{{$dok->pem_id}}"
 							                                data-myfilepem="{{$dok->file}}"
 							                                data-target="#editDokpem" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                                                          <button onclick="return confirm('Anda Yakin Ingin Menghapus Kegiatan?')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button>
+                                                          <button onclick="return confirm('Anda Yakin Ingin Menghapus Dokumen?')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button>
 														  @endrole
                                                         </form>
 							                            </td>
@@ -244,8 +321,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-    </div>
+
 
  <!-- MODAL ADD SASARAN-->
       <div class="modal fade" id="addSasaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
@@ -260,29 +336,19 @@
                     @csrf
                         <div class="row">
                             
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient-name" class="control-label">Type Bapem:</label>
                                     <div class="controls">
                                         <select class="form-control" name="tipe_bapem" required>
                                             <option value="" disabled selected>--type bapem--</option>
-                                            <option value="1">Penguatan Pengawas</option>
+                                            <option value="Penguatan KS">Penguatan KS</option>
                                             <option value="2">Zonasi PKP</option>
                                             <option value="3">PKB</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php $penerima_list = App\User::where('name', '!=', null)->pluck('name', 'name')->all();?>
-                                    <label for="recipient-name" class="control-label">Penerima:</label>
-                                     <div class="controls">{!! Form::select('penerima_bapem', [''=>'Penerima Bapem'] + $penerima_list, null, ['class' => 'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong']) !!}</div>
-                                </div>
-                            </div>
-                            
                             <div class="col-md-6">
                                 <div class="form-group">
                                         <label>Area Bapem</label>
@@ -290,6 +356,46 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            @role('administrator')
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <?php $penerima_list = App\User::where('name', '!=', null)->pluck('name', 'name')->all();?>
+                                    <label for="recipient-name" class="control-label">Penerima:</label>
+                                    <div class="controls">{!! Form::select('penerima_bapem', [''=>'Penerima Bapem'] + $penerima_list, null, ['class' => 'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong']) !!}</div>
+                                    
+                                </div>
+                            </div>
+                            @endrole
+                            @role('pengguna')
+                            <input type="hidden" name="penerima_bapem" value="{{Auth::User()->name}}">
+                            @endrole
+                            
+<!--
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Angkatan</label>
+                                        <div class="controls">{!! Form::text('angkatan',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+-->
+                        </div>
+<!--
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Mulai</label>
+                                        <div class="controls">{!! Form::date('mulai_tanggal',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Selesai</label>
+                                        <div class="controls">{!! Form::date('selesai_tanggal',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+-->
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
@@ -304,10 +410,13 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="recipient-name" class="control-label">Rupiah:</label>
-                                    <div class="controls">{!! Form::text('rupiah_bapem',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                               <div class="form-group">
+                                 <label for="rupiah" class="control-label">Rupiah:</label>
+                                  <div class="input-group">
+                                    <span class="input-group-addon" id="rupiah">Rp</span>
+                                    {!! Form::text('rupiah_bapem',null,['class'=>'form-control','aria-describedby'=>'rupiah','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}
                                 </div>
+                              </div>
                             </div>
                         </div>
                         
@@ -398,7 +507,7 @@
                                     <div class="controls">
                                         <select class="form-control" name="tipe_bapem" id="tipe">
                                             <option disabled>-Type Bapem-</option>
-                                            <option value="1">Penguatan Pengawas</option>
+                                            <option value="Penguatan KS">Penguatan KS</option>
                                             <option value="2">Zonasi PKP</option>
                                             <option value="3">PKB</option>
                                         </select>
@@ -438,7 +547,10 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="recipient-name" class="control-label">Rupiah:</label>
-                                    <div class="controls">{!! Form::text('rupiah_bapem',null,['class'=>'form-control','id'=>'rupiahbapem', 'required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                    <div class="input-group">
+                                    <span class="input-group-addon" id="rupiah">Rp</span>
+                                    {!! Form::text('rupiah_bapem',null,['class'=>'form-control','id'=>'rupiahbapem','aria-describedby'=>'rupiah','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -532,7 +644,34 @@
   </div>
     <!-- END MODAL EDIT DOKPEM-->
     
-	
+<!-- START MODAL VIEW DOKUMEN -->
+      <div class="modal fade" id="lihatdok" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLabel1">Lihat Dokumen Pemberian</h4>
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                        
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <embed src="" id="viewdok" class="m-t-30" type="application/pdf" width="100%" height="600px">
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                </div>
+                
+                
+          </div>
+      </div>
+  </div>
+    <!-- END MODAL VIEW DOKUMEN -->
 
   <!-- MODAL DETAIL -->
       <div class="modal fade" id="detailPersonel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
@@ -704,6 +843,16 @@ $(function() {
       
     });
 
+ //VIEW DOKUMEN
+    $('#lihatdok').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var doklaporan = button.data('vlaporan')
+
+
+        var modal = $(this)
+        modal.find('.modal-body #viewdok').attr('src',doklaporan);
+
+    });
     $(document).ready(function() {
         $('#myTable2').DataTable();
         $(document).ready(function() {

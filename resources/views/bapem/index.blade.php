@@ -1,9 +1,13 @@
 @extends('layouts.main_admin')
-@section('title',' | List Bapem')
+@section('title',' | List Penerima LPD')
 @section('breadcrumb')
 <div class="row page-titles">
     <div class="col-md-5 col-8 align-self-center">
-        <h3 class="text-themecolor">Daftar Bapem</h3>
+            @php
+           $adminkeu = array('administrator','keuangan')
+           @endphp
+        @role($adminkeu)<h3 class="text-themecolor">Daftar Penerima LPD</h3>@endrole
+        @role('pengguna')<h3 class="text-themecolor">Daftar Banpem</h3>@endrole
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
             <li class="breadcrumb-item active">Bapem</li>
@@ -15,18 +19,26 @@
 @section('content')
 <div class="card">
         <div class="card-body">
-            <h3 class="card-title">Daftar Bapem</h3>
+           @php
+           $adminkeu = array('administrator','keuangan')
+           @endphp
+           @role($adminkeu)
+            <h3 class="card-title">Daftar Penerima LPD</h3>
+           @endrole
+            @role('pengguna')<h3 class="card-title">Daftar Banpem</h3>@endrole
             {{-- <h6 class="card-subtitle">Data table example</h6> --}}
             <div class="table-responsive m-t-10">
                 <table id="myTable2" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            @role('administrator')<th>Pemilik</th>@endrole
+                            @role('administrator')<th>LPD Penerima</th>@endrole
                             @role('pengguna')<th>Type Bapem</th>@endrole
+                            @role('keuangan')<th>LPD Penerima</th>@endrole
                             <th>Nama Bapem</th>
                             <th>Tahun</th>
-                            <th>Keterangan</th>
+                            <th>Jumlah Sasaran</th>
+                            <th>Nilai</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -48,8 +60,8 @@
                         <tr>
                             <td>{{$no++}}</td>
                             <td>
-                              @if($bapem->type_bapem == 1)
-                                  <label class="badge badge-info">Penguatan Pengawas</label>
+                              @if($bapem->type_bapem == "Penguatan KS")
+                                  <label class="badge badge-info">Penguatan KS</label>
                                 @elseif($bapem->type_bapem == 2)
                                   <label class="badge badge-warning">Zonasi PKP</label>
                                 @else
@@ -58,7 +70,8 @@
                             </td>
                             <td>{{$bapem->nama_bapem}}</td>
                             <td>{{$bapem->tahun}}</td>
-                            <td>{{$bapem->keterangan}}</td>
+                            <td>{{$bapem->jml_sasaran}}</td>
+                            <td>{{number_format($bapem->nilai)}}</td>
                             <td>
                                 
                               {{-- {{ Form::open(['method'=>'DELETE','route'=>['bapem.destroy',$bapem->id]])}} --}}
@@ -85,17 +98,19 @@
                               <td>{{$bapemall->name}}</td>
                               <td>{{$bapemall->nama_bapem}}</td>
                               <td>{{$bapemall->tahun}}</td>
-                              <td>{{$bapemall->keterangan}}</td>
+                              <td>{{$bapemall->jml_sasaran}}</td>
+                              <td>{{number_format($bapemall->nilai)}}</td>
                               <td> 
                                   
                                 {{ Form::open(['method'=>'DELETE','route'=>['bapem.destroy',$bapemall->list_id]])}}
                                 <a href="{{route ('bapem.show',['bpm_id' => $bapemall->list_id])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Detail"><i class="fa fa-eye"></i></a>
-                                <a class="btn btn-warning btn-sm" data-toggle="modal" 
+                                <a href="" class="btn btn-warning btn-sm" data-toggle="modal"
                                   data-mytitle="{{$bapemall->type_bapem}}" 
                                   data-myuser="{{$bapemall->user_id}}" 
                                   data-mynama="{{$bapemall->nama_bapem}}" 
                                   data-mytahun="{{$bapemall->tahun}}"
-                                  data-myketerangan="{{$bapemall->keterangan}}"
+                                  data-myketerangan="{{$bapemall->jml_sasaran}}"
+                                  data-nilaibpm="{{$bapemall->nilai}}"
                                   data-bapemid="{{$bapemall->list_id}}"
                                   data-target="#edit" data-original-title="Edit"><i class="fa fa-edit"></i></a>
                                   
@@ -103,9 +118,27 @@
                                   {{ Form::close()}}
                                {{--  <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button> --}}
                               </td>
-                            @endforeach
-                            @endrole
                         </tr>
+                        @endforeach
+                        @endrole
+
+                        @role('keuangan')
+                        @foreach($listbapemall as $bapemall)
+                          <tr>
+                              <td>{{$no++}}</td>
+                              <td>{{$bapemall->name}}</td>
+                              <td>{{$bapemall->nama_bapem}}</td>
+                              <td>{{$bapemall->tahun}}</td>
+                              <td>{{$bapemall->jml_sasaran}}</td>
+                              <td>{{number_format($bapemall->nilai)}}</td>
+                              <td>
+
+                                <a href="{{route ('bapem.show',['bpm_id' => $bapemall->list_id])}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Detail"><i class="fa fa-eye"></i></a>
+
+                              </td>
+                        </tr>
+                        @endforeach
+                        @endrole
                     </tbody>
 
 
@@ -124,7 +157,7 @@
           <div class="modal-dialog modal-md" role="document">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h4 class="modal-title" id="exampleModalLabel1">Tambah Bapem</h4>
+                      <h4 class="modal-title" id="exampleModalLabel1">Tambah LPD Penerima</h4>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   </div>
                   <div class="modal-body">
@@ -192,6 +225,7 @@
       var namabapem = button.data('mynama') 
       var tahun = button.data('mytahun') 
       var keterangan = button.data('myketerangan') 
+      var nilaibpm = button.data('nilaibpm') 
       var mybapemid = button.data('bapemid') 
      
       var modal = $(this)
@@ -200,6 +234,7 @@
       modal.find('.modal-body #namabapem').val(namabapem);
       modal.find('.modal-body #thn').val(tahun);
       modal.find('.modal-body #ket').val(keterangan);
+      modal.find('.modal-body #nilai').val(nilaibpm);
       modal.find('.modal-body #bapemid').val(mybapemid);
     })
 

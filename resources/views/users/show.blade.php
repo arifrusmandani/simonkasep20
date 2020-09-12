@@ -13,7 +13,7 @@
                     <div class="col-lg-4 col-xlg-3 col-md-5">
                         <div class="card">
                             <div class="card-body">
-                                <center class="m-t-10"> <img src="../assets/images/users/upi-foto.png" class="img-circle" width="150" />
+                                <center class="m-t-10"> <img src="{{asset('avatar/'.$user->foto)}}" class="img-circle" width="150" />
                                     <h4 class="card-title m-t-10">{{$user->name}}</h4>
                                     <h6 class="card-subtitle">{{$user->email}}</h6>
                                     
@@ -44,15 +44,17 @@
                         <div class="card">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs profile-tab" role="tablist">
-                                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#listBapem" role="tab">List Bapem</a> </li>
+<!--
+                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#listBapem" role="tab">List Bapem</a> </li>
                                 <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#pengelolaBapem" role="tab">Pengelola Bapem</a> </li>
-                                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Edit Profil</a> </li>
+-->
+                                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#settings" role="tab">Profil</a> </li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
                                 
                                 <!--second tab-->
-                                <div class="tab-pane active" id="listBapem" role="tabpanel">
+                                <div class="tab-pane" id="listBapem" role="tabpanel">
                                     <div class="card-body">
                                         <div class="row">
                                             
@@ -141,7 +143,7 @@
                                         
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="settings" role="tabpanel">
+                                <div class="tab-pane active" id="settings" role="tabpanel">
                                     <div class="card-body">
                                         <form class="form-horizontal form-material">
 

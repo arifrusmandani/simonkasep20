@@ -19,6 +19,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password','instansi','alamat','provinsi','kabkot','kecamatan','npwp','foto'
     ];
+    protected $attributes = ['foto' => 'default.png'];
 
 
 

@@ -74,7 +74,7 @@
                                                         <td>
                                                         {{ Form::open(['method'=>'DELETE','route'=>['dokumen.destroy',$dokumen->id]])}}
 
-                                                          <a class="btn btn-warning btn-sm" data-toggle="modal"
+                                                          <a href="" class="btn btn-warning btn-sm" data-toggle="modal"
                                                           data-mytype="{{$dokumen->tipe}}"
                                                           data-mynamadok="{{$dokumen->nama_dokumen}}"
                                                           data-mykodedok="{{$dokumen->kode_dokumen}}"
@@ -120,6 +120,7 @@
                                     <label for="recipient-name" class="control-label">Type Dokumen:</label>
                                     <div class="controls">
                                         <select id="tipe" class="form-control" name="tipe">
+                                            <option disabled selected>-Tipe Dokumen-</option>
                                             <option value="Pemberian Bapem">Pemberian Bapem</option>
                                             <option value="Laporan Bapem">Laporan Bapem</option>
                                         </select>
@@ -145,7 +146,7 @@
                                     ?>
                                     <label for="recipient-name" class="control-label">Kode Dokumen:</label>
                                     <div class="controls">
-                                        <input type="text" id="kode_dokumen" name="kode_dokumen" class="form-control" value="0{{$kodeakhir+1}}" disabled>
+                                        <input type="text" id="kode_dokumen" name="kode_dokumen" class="form-control" value="">
                                     </div>
                                 </div>
                             </div>

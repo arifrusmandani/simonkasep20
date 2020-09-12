@@ -43,7 +43,8 @@
                             {{--
                             <li class="nav-item"> <a class="nav-link" href="../Documentation/document.html" target="_blank">Documentation</a> </li>
                             --}}
-                            <li class="nav-item"> <a class="m-t-5 btn btn-info font-13" href="https://wa.me/6282185016933" style="width:120px;">Kontak Admin</a> </li>
+                            <li class="nav-item"> <a class="m-t-5 m-r-10 btn btn-info font-13" href="https://wa.me/6282185016933" style="width:120px;">Kontak Admin</a> </li> 
+                            <li class="nav-item"> <a class="m-t-5 btn btn-secondary font-13" href="/bapem" style="width:120px;">Masuk</a> </li>
                         </ul>
                     </div>
                 </nav>
@@ -69,7 +70,7 @@
 
             <div class="col-md-12 sub-footer">
                 <span>Copyright 2019. All Rights Reserved by <a class="text-white " href="http://p4tktkplb.kemdikbud.go.id" target="_blank">PPPPTK TK dan PLB</a></span>
-                <span class="pull-right">Design & Developed by <a class="text-white" href="mailto:aam.sudrajat@kemdikbud.go.id" target="_blank">Sudrajat</a></span>
+                <span class="pull-right">Jl. Dr. Cipto No.9, Pasir Kaliki, Kec. Cicendo, Kota Bandung, Jawa Barat 40171 <!--<a class="text-white" href="mailto:aam.sudrajat@kemdikbud.go.id" target="_blank">Sudrajat</a>--> </span>
             </div>
         </footer>
         <!-- ============================================================== -->

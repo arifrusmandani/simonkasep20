@@ -40,6 +40,12 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::get('bapem/detail','BapemController@detail');
 	Route::resource('/dokpem','DokpemController');
 	Route::resource('/laporan','LaporanController');
+	Route::resource('/angkatan','AngkatanController');
+
+    Route::post('/laporan/{id}', [
+        'uses' => 'LaporanController@verifikasi',
+        'as' => 'laporan.verifikasi'
+    ]);
 
 	Route::get('/personel/{id}',[
 			'uses' => 'PersonelController@show',

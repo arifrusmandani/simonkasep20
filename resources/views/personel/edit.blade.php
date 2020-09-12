@@ -126,7 +126,7 @@
 
                                 <div class="row">
                                     <div class="form-group col-xs12 col-md-6">
-                                        <a href="{{ url()->previous() }}" class="btn btn-block btn-md btn-primary"><i class="fa fa-arrow-left"></i> KEMBALI</a>
+                                        <a href="/bapem/{{ Session::get('bpm_id')}}" class="btn btn-block btn-md btn-primary"><i class="fa fa-arrow-left"></i> KEMBALI</a>
                                     </div>
                                     <div class="form-group col-xs12 col-md-6">
                                         <button class="btn btn-block btn-md btn-success" type="submit">

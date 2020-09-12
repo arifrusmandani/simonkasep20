@@ -8,6 +8,7 @@ use App\Sasaran;
 use App\Personel;
 use App\Listbapem;
 use App\User;
+use App\Angkatan;
 use App\Dokumen_bapem_pemberian;
 Use Session;
 use DB;
@@ -57,12 +58,29 @@ class BapemController extends Controller
         $bpm_id = Session::get('bpm_id');
 
 
+        $capaian = \DB::table('angkatan')->join('sasaran','sasaran.id','=','angkatan.sasaran_id')
+                    ->get()->where("listbapem_id",$id);
+        $sumcapaian = $capaian->sum('capaian_sasaran');
+        $sasaran = DB::table('listbapem')
+            ->join('sasaran','sasaran.listbapem_id','=','listbapem.id')
+            ->leftJoin('angkatan','angkatan.sasaran_id','=','sasaran.id')
+            ->select('sasaran.id as ssrn_id','user_id','penerima_bapem','tipe_bapem','area_bapem','sasaran','satuan','rupiah_bapem',DB::raw('sum(angkatan.capaian_sasaran) AS capaian'),DB::raw('sum(angkatan.nilai) AS capaian_nilai'))
+            ->where("listbapem_id",$id)
+            ->groupBy('sasaran.id')
+            ->get();
+    	// $sasaran = Sasaran::all()->where("listbapem_id", $id);
+
+        $jmlcapaiansssrn = $sasaran->sum('capaian');
+        $jmlcapaiannilai = $sasaran->sum('capaian_nilai');
+        $jmlkabkot = DB::table('sasaran')->where("listbapem_id",$id)->count('area_bapem');
+        $jmlsasaran = DB::table('sasaran')->where('listbapem_id',$id)->sum('sasaran');
+        $jmlrupiah = DB::table('sasaran')->where('listbapem_id',$id)->sum('rupiah_bapem');
+        // dd($jmltotal);
 
     	$list_bapem = Listbapem::findOrFail($id);
         // $personel_bapem = Personel::all()->where("user_id", $request->user()->id);
     	$personel_bapem = Personel::all()->where("listbapem_id", $id);
         // $sasaran = Sasaran::all()->where("user_id", $request->user()->id);
-    	$sasaran = Sasaran::all()->where("listbapem_id", $id);
 
         $dokumen_pemberian = \DB::table('dokumen_bapem_pemberian')
                     ->join('std_dokumen','std_dokumen.kode_dokumen','=','dokumen_bapem_pemberian.kode_dokumen')
@@ -75,8 +93,12 @@ class BapemController extends Controller
             'personel_bapem'    => $personel_bapem,
             'sasaran'           => $sasaran,
             'list_bapem'        => $list_bapem,
-            'dokumen_pemberian' => $dokumen_pemberian
-    
+            'dokumen_pemberian' => $dokumen_pemberian,
+            'jmlkabkot'         => $jmlkabkot,
+            'jmlsasaran'        => $jmlsasaran,
+            'jmlrupiah'         => $jmlrupiah,
+            'jmlcapaiansssrn'   => $jmlcapaiansssrn,
+            'jmlcapaiannilai'   => $jmlcapaiannilai
         ]);
 
     }

@@ -8,7 +8,7 @@ class Listbapem extends Model
 {
     protected $table = 'listbapem';
     protected $fillable = [
-    	'user_id','type_bapem','tahun','nama_bapem','keterangan'
+    	'user_id','type_bapem','tahun','nama_bapem','jml_sasaran','nilai'
     ];
 
     public function user()

@@ -1,4 +1,5 @@
   <script src="{{asset('assets/plugins/jquery/jquery.min.js')}}"></script>
+  <script src="{{asset('assets/plugins/jquery-mask/jquery.mask.min.js')}}"></script>
   <script src="{{asset('assets/plugins/notifications/notifications.js')}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{asset('assets/plugins/bootstrap/js/popper.min.js')}}"></script>

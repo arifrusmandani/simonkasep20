@@ -1,150 +1,321 @@
 @extends('layouts.main_admin')
-@section('title',' | Sasaran Pertanggung Jawaban')
+@section('title',' | Sasaran Angkatan')
+@section('stylesheets')
+
+<link href="{{asset('assets/plugins/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css')}}" rel="stylesheet">
+@endsection
 @section('breadcrumb')
 <div class="row page-titles">
     <div class="col-md-5 col-8 align-self-center">
-        <h3 class="text-themecolor">Laporan Pertanggung Jawaban</h3>
+        <h3 class="text-themecolor">Sasaran Per Angkatan</h3>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('bapem.index') }}">Bapem</a></li>
-            <li class="breadcrumb-item active">Laporan</li>
+            <li class="breadcrumb-item"><a href="/bapem/{{ Session::get('bpm_id')}}">Sasaran</a></li>
+            <li class="breadcrumb-item active">Angkatan</li>
         </ol>
     </div>
 </div>
 @endsection
 @section('content')
-
-  <div class="row">
-    
-    <div class="col-lg-9 col-xlg-9 col-md-9">
-        <div class="card">
-            <div class="card-header">
-            <div class="ribbon ribbon-bookmark ribbon-primary">Dokumen Laporan Bapem</div>
-            @role('pengguna')
-            <button class="btn btn-sm btn-warning float-right" data-toggle="modal" data-target="#tambahLaporan">Tambah Dokumen Laporan</button>
-            @endrole
+<div class="card">
+          <div class="card-header">
+            <div class="ribbon ribbon-bookmark ribbon-default">Pertanggung Jawaban</div>
           </div>
-            <div class="card-body"> 
-              <!-- <h3 class="card-title">Pengelola Sasaran Bapem</h3> -->
+            
+            <div class="card-body m-t-20"> 
+             <div class="table-responsive">
+                                    <table class="table color-bordered-table red-bordered-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type Banpem</th>
+                                                <th>Area Banpem</th>
+                                                <th>Jumlah Sasaran</th>
+                                                <th>Capaian Sasaran</th>
+                                                <th>Jumlah Nilai</th>
+                                                <th>Capaian Nilai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{$sasaran->tipe_bapem}}</td>
+                                                <td>{{$sasaran->area_bapem}}</td>
+                                                <td>{{$sasaran->sasaran}} {{$sasaran->satuan}}</td>
+                                                <td>{{$sum_angkatan}} {{$sasaran->satuan}}</td>
+                                                <td>Rp. {{number_format($sasaran->rupiah_bapem,2,",",".")}}</td>
+                                                <td>Rp. {{number_format($sum_nilai,2,",",".")}}</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+            </div>
+</div>
+        
+<div class="card">
+        <div class="card-body">
+           @php
+           $adminuser = array('administrator','pengguna')
+           @endphp
+           @role($adminuser)
+            <h3 class="card-title">Angkatan per Sasaran</h3>
+           @endrole
             {{-- <h6 class="card-subtitle">Data table example</h6> --}}
             <div class="table-responsive m-t-10">
                 <table id="myTable2" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Dokumen</th>
-                            <th>Volume</th>
-                            <th>Satuan</th>
-                            <th>Catatan</th>
-                            <th>File</th>
+                            <th>Kab/Kot</th>
+                            <th>Angkatan</th>
+                            <th>Tgl Pelaksanaan</th>
+                            <th>Target</th>
+                            <th>Capaian</th>
+                            <th>Nilai</th>
+                            <th>Tempat Pelaksanaan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <?php $no = 1;?>
-                        @foreach ($dok_laporan as $laporan)
+                        @foreach($angkatan as $akt)
                         <tr>
                             <td>{{$no++}}</td>
-                            <td>{{$laporan->nama_dokumen}}</td>
-                            <td>{{$laporan->volume}}</td>
-                            <td>{{$laporan->satuan}}</td>
-                            <td>{{$laporan->catatan}}</td>
-                            <td><a href="{{asset('files/'.$laporan->file)}}" target="_blank"> {{$laporan->file}}</a></td>
+                            <td>{{$sasaran->area_bapem}}</td>
+                            <td>{{$akt->angkatan}}</td>
+                            <td>{{$akt->tgl_mulai}} s/d {{$akt->tgl_selesai}}</td>
+                            <td>{{$akt->target_sasaran}}</td>
+                            <td>{{$akt->capaian_sasaran}}</td>
+                            <td>{{number_format($akt->nilai,2,",",".")}}</td>
+                            <td>{{$akt->tuk}}, {{$akt->tuk_alamat}}</td>
                             <td>
+                                <form action="{{ route('angkatan.destroy', $akt->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="_method" value="DELETE">
+						            <a href="{{route ('angkatan.show',$akt->id)}}" class="btn btn-primary btn-sm"data-toggle="tooltip" data-original-title="Detail"><i class="fa fa-eye"></i></a>
+                                   @php
+                                    $adminuser = array('administrator','pengguna')
+                                    @endphp
+                                   @role($adminuser)
+                                    <a href="" class="btn btn-warning btn-sm m-t-5" data-toggle="modal"
+                                      data-myaktid="{{$akt->id}}"
+                                      data-myakt="{{$akt->angkatan}}"
+                                       data-mytglmulai="{{$akt->tgl_mulai}}"
+                                       data-mytglselesai="{{$akt->tgl_selesai}}"
+                                       data-mytarget="{{$akt->target_sasaran}}"
+                                       data-mycapaian="{{$akt->capaian_sasaran}}"
+                                       data-mynilai="{{$akt->nilai}}"
+                                       data-mytuk="{{$akt->tuk}}"
+                                       data-myalamat="{{$akt->tuk_alamat}}"
+                                       data-target="#editAngkatan" data-original-title="Edit"
+                                       ><i class="fa fa-edit"></i></a>
+                                    
+                                    
+                                    <button onclick="return confirm('Anda Yakin Ingin Menghapus ?')" class="btn btn-danger btn-sm m-t-5" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button>
+                                    @endrole                     
+                                </form>
                               
-                              {{ Form::open(['method'=>'DELETE','route'=>['laporan.destroy',$laporan->lap_id]])}}
-                              <a href="{{asset('files/'.$laporan->file)}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Download"><i class="fa fa-download"></i></a>
-                              @role('pengguna')
-                              <a class="btn btn-warning btn-sm" data-toggle="modal"  
-                                data-mynama="{{$laporan->kode_dokumen}}" 
-                                data-myvolume="{{$laporan->volume}}" 
-                                data-mysatuan="{{$laporan->satuan}}"
-                                data-mycatatan="{{$laporan->catatan}}"
-                                data-myfile="{{$laporan->file}}"
-                                data-laporanid="{{$laporan->lap_id}}"
-                                data-target="#editLaporan" data-original-title="Edit"><i class="fa fa-edit"></i></a>
-                              {{-- <button class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus"><i class="fa fa-trash"></i></button> --}}
-                              <button onclick="return confirm('Anda Yakin Ingin Menghapus Kegiatan?')" type ="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" data-original-title="Hapus" {{App\Dokumen_bapem_laporan::find($laporan->lap_id) }}><i class="fa fa-trash"></i></button>
-                              @endrole
-                                    {{ Form::close()}}
+                              
+                              
 
-                              
-                            
-                            
                             </td>
                         </tr>
                         @endforeach
-                                                
                     </tbody>
+
+
                 </table>
-            </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-xlg-3 col-md-3">
-        <div class="card">
-          <div class="card-header">
-            <div class="ribbon ribbon-bookmark  ribbon-default">Pertanggung Jawaban</div>
-          </div>
-            
-            <div class="card-body m-t-20"> 
-              <div class=""><label class="text-muted">Tipe Bapem: </label> <strong>{{$sasaran->tipe_bapem}}</strong></div>
-                    <div class=""><label class="text-muted">Penerima Bapem: </label> <strong>{{$sasaran->penerima_bapem}}</strong></div>
-                    <div class=""><label class="text-muted">Area Bapem: </label> <strong>{{$sasaran->area_bapem}}</strong></div>
-                    <div class=""><label class="text-muted">Sasaran: </label> <strong>{{$sasaran->sasaran}} {{$sasaran->satuan}}</strong></div>
-                    <div class=""><label class="text-muted"> Rupiah Bapem: </label> <strong>Rp. {{$sasaran->rupiah_bapem}}</strong></div>
-            </div>
-        </div>
-    </div>
-
-
-    {{-- <div class="col-lg-9 col-xlg-9 col-md-7 float-right">
-        <div class="card">
-            <div class="card-header">
-            <div class="ribbon ribbon-bookmark ribbon-warning">Dokumen Pemberian Bapem</div>
-           
-          </div>
-            <div class="card-body"> 
-            <div class="table-responsive m-t-10">
-                <table id="myTable2" class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Dokumen</th>
-                            <th>File</th>
-                            <th>Catatan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $no = 1
-                          @endphp
-                        @foreach ($dokumen_pemberian as $dok)
-                          <tr>
-                              <td>{{$no++}}</td>
-                              <td>{{$dok->nama_dokumen}}</td>
-                              <td>{{$dok->file}}</td>
-                              <td>{{$dok->catatan}}</td>
-                              <td>
-                                <a href="#" class="btn btn-primary btn-sm" data-toggle="tooltip" data-original-title="Download"><i class="fa fa-download"></i></a>
-                            
-                            
-                            </td>
-                        </tr>
-                        @endforeach
-                                                
-                    </tbody>
-                </table>
-            </div>
-            </div>
-        </div>
-    </div> --}}
-
-  </div>
-    {{-- <a href="" class="right-side-toggle btn btn-warning btn-circle btn-med pull-right p-20 m-t-40 m-b-40" data-toggle="tooltip" data-placement="left" title="" data-original-title="Tambah User">
+    
+<!--  END CARD  -->
+@php
+    $adminuser = array('administrator','pengguna')
+@endphp
+@role($adminuser)
+   <a href="#" class="right-side-toggle btn btn-warning btn-circle btn-med pull-right p-20 m-t-40 m-b-40" data-toggle="modal" data-target="#addAngkatan" data-placement="left" title="" data-original-title="Tambah User">
         <i class="fa fa-plus"></i>
-    </a> --}}
+    </a>
+@endrole
+ <!-- MODAL ADD ANGKATAN-->
+      <div class="modal fade" id="addAngkatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLabel1">Tambah Angkatan</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                    {!! Form::open(array('route'=> 'angkatan.store','class'=>'form-horizontal m-t-10')) !!}
+                    @csrf
+                       <input type="text" name="sasaran_id" class="form-control" value="{{$sasaran->id}}" hidden>
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                        <label>Angkatan:</label>
+                                        <div class="controls">{!! Form::text('angkatan',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Mulai</label>
+                                        <div class="controls">{!! Form::date('tgl_mulai',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Selesai</label>
+                                        <div class="controls">{!! Form::date('tgl_selesai',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Target:</label>
+                                    <div class="controls">{!! Form::text('target_sasaran',null,['class'=>'form-control'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Capaian:</label>
+                                    <div class="controls">{!! Form::text('capaian_sasaran',null,['class'=>'form-control'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                 <label for="rupiah" class="control-label">Nilai:</label>
+                                  <div class="input-group">
+                                    <span class="input-group-addon" id="rupiah">Rp</span>
+                                    {!! Form::text('nilai',null,['class'=>'form-control uang','aria-describedby'=>'rupiah'])!!}
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Tempat Pelaksanaan:</label>
+                                    <div class="controls">{!! Form::text('tuk',null,['class'=>'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Alamat:</label>
+                                    <div class="controls">{!! Form::textarea('tuk_alamat',null,['class'=>'form-control','rows'=>'5','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">SIMPAN</button>
+                </div>
+                {!!Form::close()!!}
+          </div>
+      </div>
+  </div>
+    <!-- END MODAL ADD ANGKATAAN -->
+<!-- START MODAL EDIT ANGKATAN-->
+<div class="modal fade" id="editAngkatan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLabel1">Edit Angkatan</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                    {!! Form::open(array('route'=> ['angkatan.update','update'], 'method'=>'PATCH','class'=>'form-horizontal m-t-10','novalidate'=>'novalidate')) !!}
+                    @csrf
+                      
+                        <div class="row">
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                        <label>Angkatan:</label>
+                                        <div class="controls">{!! Form::text('angkatan',null,['class'=>'form-control','id'=>'akt','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Mulai</label>
+                                        <div class="controls">{!! Form::date('tgl_mulai',null,['class'=>'form-control','id'=>'tglmulai','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label>Tanggal Selesai</label>
+                                        <div class="controls">{!! Form::date('tgl_selesai',null,['class'=>'form-control','id'=>'tglselesai','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Target:</label>
+                                    <div class="controls">{!! Form::text('target_sasaran',null,['class'=>'form-control','id'=>'target','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Capaian:</label>
+                                    <div class="controls">{!! Form::text('capaian_sasaran',null,['class'=>'form-control','id'=>'capaian','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="form-group">
+                                 <label for="rupiah" class="control-label">Nilai:</label>
+                                  <div class="input-group">
+                                    <span class="input-group-addon" id="rupiah">Rp</span>
+                                    {!! Form::text('nilai',null,['class'=>'form-control uang','id'=>'nilaiid','aria-describedby'=>'rupiah','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Tempat Pelaksanaan:</label>
+                                    <div class="controls">{!! Form::text('tuk',null,['class'=>'form-control','id'=>'tmpt','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="control-label">Alamat:</label>
+                                    <div class="controls">{!! Form::textarea('tuk_alamat',null,['class'=>'form-control','id'=>'almt','rows'=>'5','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="angkatanid" id="id_akt" value="">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">SIMPAN</button>
+                </div>
+                {!!Form::close()!!}
+          </div>
+      </div>
+  </div>
+<!-- END MODAL EDIT ANGKATAN -->
  <!-- MODAL ADD -->
       <div class="modal fade" id="tambahLaporan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
           <div class="modal-dialog modal-md" role="document">
@@ -302,14 +473,196 @@
       </div>
   </div>
     <!-- END MODAL EDIT -->
+    <!-- START MODAL VERIFIKASI -->
+      <div class="modal fade" id="verifikasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+          <div class="modal-dialog modal-full" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="exampleModalLabel1">Verifikasi Dokumen Laporan</h4>
+
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                        {!! Form::open(array('route'=> ['laporan.verifikasi', 'verifikasi'], 'method'=>'POST', 'class'=>'form-horizontal m-t-10','novalidate'=>'novalidate')) !!}
+                        @csrf
+                        <div class="row">
+
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="ribbon ribbon-left ribbon-default m-t-min-20">Dokumen</div>
+                                    <embed src="" id="verlaporan" class="m-t-30" type="application/pdf" width="100%" height="600px">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+<!--                                    <label for="recipient-name" class="control-label">Deatil :</label>-->
+
+                                    <div class="ribbon ribbon-right ribbon-default m-t-min-20">Detail</div>
+
+                                    <div class="form-group m-t-30">
+                                       <table class="table table-bordered table-striped">
+                                           <tr>
+                                               <th>Nama Dokumen</th>
+                                               <th>Volume</th>
+                                           </tr>
+                                           <tr>
+                                               <td id="vnmdok"></td>
+                                               <td id="volsat"></td>
+                                           </tr>
+                                       </table>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="control-label">Status :</label>
+                                            <div class="controls">
+                                                <select class="form-control" name="status" id="vstatus">
+                                                    <option value="Valid">Valid</option>
+                                                    <option value="Tidak Valid">Tidak Valid</option>
+                                                    <option value="Belum Dicek">Belum Dicek</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="control-label">Catatan :</label>
+                                            <div class="controls">{!! Form::textarea('catatan',null,['class'=>'form-control','id'=>'vketerangan','rows'=>'5'])!!}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="vlaporanid" id="vlap_id" value="">
+                            </div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">SIMPAN</button>
+                </div>
+                {!!Form::close()!!}
+          </div>
+      </div>
+  </div>
+    <!-- END MODAL VERIFIKASI -->
+
     
 
 
 @endsection
 
 @section('writen_scripts')
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="{{asset('assets/plugins/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js')}}"></script>
+    <!-- This is data table -->
+<script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+<!-- start - This is for export functionality only -->
+<script src="{{asset('assets/plugins/datatables/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/buttons.flash.min.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/2.5.0/jszip.min.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/pdfmake.min.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/vfs_fonts.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/buttons.html5.min.js')}}"></script>
+<script src="{{asset('assets/plugins/datatables/buttons.print.min.js')}}"></script>
 <script type="text/javascript">
+//FORMAT UANG
+   $(document).ready(function(){
+    $( '.uang' ).mask('00.000.000.000', {reverse: true});
+})
+//datatable
+    $(document).ready(function() {
+        $('#myTable2').DataTable();
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": 2
+                }],
+                "order": [
+                    [2, 'asc']
+                ],
+                "displayLength": 25,
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+                    api.column(2, {
+                        page: 'current'
+                    }).data().each(function(group, i) {
+                        if (last !== group) {
+                            $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                            last = group;
+                        }
+                    });
+                }
+            });
+            // Order by the grouping
+            $('#example tbody').on('click', 'tr.group', function() {
+                var currentOrder = table.order()[0];
+                if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                    table.order([2, 'desc']).draw();
+                } else {
+                    table.order([2, 'asc']).draw();
+                }
+            });
+        });
+    });
+    
+//xeditable
+    $(function(){
+        $('.inline-status').editable({
+            prepend: "not selected",
+            mode: 'inline',
+            source: [{
+                value: 'Valid',
+                text: 'Valid'
+            }, {
+                value: 'Tidak Valid',
+                text: 'Tidak Valid'
+            },{
+                value: 'Belum Dicek',
+                text: 'Belum Dicek'
+            }],
+            display: function(value, sourceData) {
+                var colors = {
+                        "": "#98a6ad",
+                        "Valid": "#009efb",
+                        "Tidak Valid": "#fb3a3a",
+                        "Belum Dicek":"#98a6ad"
+                    },
+                    elem = $.grep(sourceData, function(o) {
+                        return o.value == value;
+                    });
+
+                if (elem.length) {
+                    $(this).text(elem[0].text).css("color", colors[value]);
+                } else {
+                    $(this).empty();
+                }
+            }
+        });
+    });
+
+// status change
+    $(".selectstatus").change(function(){
+     var status = $(this).val();
+     var getid = $(this).attr("status-id");
+        $.ajax({
+            type:'PATCH',
+            url:'../laporan/'+getid,
+            data:{status:status, _method: "PATCH"},
+            success:function(data){
+                alert(data.success);
+            }
+        });
+    });
 // custom button input file
     const realFileBtn = document.getElementById("idfile");
     const customBtn = document.getElementById("custom-button");
@@ -325,7 +678,7 @@
           /[\/\\]([\w\d\s\.\-\(\)]+)$/
         )[1];
       } else {
-        customTxt.innerHTML = "{{$laporan->file}}";
+        customTxt.innerHTML = "";
       }
     });
 
@@ -358,24 +711,48 @@ $('form input[type=text]').on('change invalid', function() {
       textfield.setCustomValidity('Tidak boleh kosong!');  
     }
 });
+//VERIFIKASI LAPORAN
+    $('#verifikasi').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var doklaporan = button.data('vlaporan')
+        var keterangan = button.data('keterangan')
+        var status = button.data('status')
+        var vnamadok = button.data('vnamadok')
+        var volumesat = button.data('volumesat')
+        var vlaporanid = button.data('vlaporanid')
 
-    $('#editLaporan').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        modal.find('.modal-body #verlaporan').attr('src',doklaporan);
+        modal.find('.modal-body #vketerangan').val(keterangan);
+        modal.find('.modal-body #vstatus').val(status);
+        modal.find('.modal-body #vnmdok').html(vnamadok);
+        modal.find('.modal-body #volsat').html(volumesat);
+        modal.find('.modal-body #vlap_id').val(vlaporanid);
+    });
+//EDIT LAPORAN
+    $('#editAngkatan').on('show.bs.modal', function (event) {
 
       var button = $(event.relatedTarget) // Button that triggered the modal
-      var namadokumen = button.data('mynama') 
-      var volume = button.data('myvolume') 
-      var satuan = button.data('mysatuan') 
-      var catatan = button.data('mycatatan') 
-      var file = button.data('myfile') 
-      var mylaporan_id = button.data('laporanid') 
+      var angkatan = button.data('myakt') 
+      var tgl_mulai = button.data('mytglmulai') 
+      var tgl_selesai = button.data('mytglselesai') 
+      var target = button.data('mytarget') 
+      var capaian = button.data('mycapaian') 
+      var nilai = button.data('mynilai') 
+      var tuk = button.data('mytuk') 
+      var alamat = button.data('myalamat') 
+      var angkatanid = button.data('myaktid') 
      
       var modal = $(this)
-      modal.find('.modal-body #namalap').val(namadokumen);
-      modal.find('.modal-body #idvolume').val(volume);
-      modal.find('.modal-body #idsatuan').val(satuan);
-      modal.find('.modal-body #idcatatan').val(catatan);
-      modal.find('.modal-body #filelap').val(file);
-      modal.find('.modal-body #idlap_id').val(mylaporan_id);
+      modal.find('.modal-body #akt').val(angkatan);
+      modal.find('.modal-body #tglmulai').val(tgl_mulai);
+      modal.find('.modal-body #tglselesai').val(tgl_selesai);
+      modal.find('.modal-body #target').val(target);
+      modal.find('.modal-body #capaian').val(capaian);
+      modal.find('.modal-body #nilaiid').val(nilai);
+      modal.find('.modal-body #tmpt').val(tuk);
+      modal.find('.modal-body #almt').val(alamat);
+      modal.find('.modal-body #id_akt').val(angkatanid);
     })
 </script>
 @endsection

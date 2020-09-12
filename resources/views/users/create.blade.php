@@ -1,7 +1,6 @@
 @extends('layouts.main_admin')
 @section('title',' | Tambah Users')
 @section('breadcrumb')
-@endsection
 <div class="row page-titles">
     <div class="col-md-5 col-8 align-self-center">
         <h3 class="text-themecolor">Tambah User</h3>
@@ -12,16 +11,9 @@
         </ol>
     </div>
 </div>
+@endsection
+
 @section('content')
-
-
-@if(session('message'))
-<div class="alert alert-success">
-  {{session('message')}}
-</div>
-@endif
-
-
 <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -36,8 +28,11 @@
                             @endif
 
                           {{-- <h6 class="card-subtitle">Data table example</h6> --}}
-                          <form action="{{ route('users.store') }}" method="post">
+                           {!! Form::open(array('route'=> ['users.store'], 'method'=>'POST','enctype'=>'multipart/form-data','class'=>'form-horizontal m-t-10')) !!}
+                          
                                 @csrf
+                                <div class="row">
+                                <div class="col-md-9">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -129,23 +124,54 @@
                                     <p class="text-danger">{{ $errors->first('npwp') }}</p>
                                 </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                    <label for="">Foto</label>
-                                    <input type="file" name="foto" class="form-control {{ $errors->has('foto') ? 'is-invalid':'' }}" >
-                                    <p class="text-danger">{{ $errors->first('foto') }}</p>
+                                    
                                 </div>
-                                    </div>
-                                </div>
-                                
-                                
-                                
+                                <div class="row">
+                                <div class="col-md-6">
                                 <div class="form-group">
                                     <button class="btn btn-primary btn-md">
                                         <i class="fa fa-send"></i> Simpan
                                     </button>
                                 </div>
-                            </form>
+                                </div>
+                                </div>
+                              </div>
+                              
+                                
+                                                                
+                                
+                                <div class="col-md-3">
+                                      <div class="col-md-12">
+                                       <div class="form-group">
+                                              <center>
+                                          <div class="fileinput fileinput-new" data-provides="fileinput">
+                                            <div class="fileinput-new thumbnail" style="width: 150px; height: 150px;">
+                                            
+                                              {{-- {!! Html::image('personel/' . $avatar, $personel->nama,['class'=>'media-object']) !!} --}}
+                                              <img src="{{asset('avatar/default.png')}}" alt="Photo">
+                                              {{-- <img src="{{asset('avatar/'.$avatar)}}" alt="Photo"> --}}
+                                            </div>
+                                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
+                                            <div class="text-center">
+                                              <span class="btn btn-warning btn-file"><span class="fileinput-new">Choose Photo</span><span class="fileinput-exists">Change</span>
+                                              <input type="file" name="foto" id="foto"></span>
+                                              <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                          </div>
+                                              </center>
+                                      </div>
+<!--
+                                        <div class="form-group">
+                                            <label for="">Foto</label>
+                                            <input type="file" name="foto" class="form-control {{ $errors->has('foto') ? 'is-invalid':'' }}" >
+                                            <p class="text-danger">{{ $errors->first('foto') }}</p>
+                                        </div>
+-->
+                                    </div>
+                                    </div>
+                                
+                            {!! Form::close() !!}
+                            </div>
 
                       </div>
                   </div>

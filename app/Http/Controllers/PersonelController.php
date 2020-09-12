@@ -21,15 +21,7 @@ class PersonelController extends Controller
 
     	public function store(Request $request)
     	{
-            $foto = $request->file('foto');
-            $name = 'personel-'.$request->nik.'.'.$foto->getClientOriginalExtension();
-
-            $path = $foto->move('avatar',$name);
-
-            // $request->merge([
-            //     'listbapem_id' => Session::get('bpm_id')
-            // ]);
-            Personel::create([
+            $data_to_update = [
                 'listbapem_id' => Session::get('bpm_id'),
                 'peran' =>$request->peran,
                 'nama' =>$request->nama,
@@ -43,8 +35,18 @@ class PersonelController extends Controller
                 'provinsi' =>$request->provinsi,
                 'kabkot' =>$request->kabkot,
                 'kecamatan' =>$request->kecamatan,
-                'foto' =>$name
-            ]);
+            ];
+            if($request->file('foto')){
+                $foto = $request->file('foto');
+                $name = 'personel-'.$request->nik.'.'.$foto->getClientOriginalExtension();
+                $path = $foto->move('avatar',$name);
+                $data_to_update['foto'] = $name;
+            }
+
+            // $request->merge([
+            //     'listbapem_id' => Session::get('bpm_id')
+            // ]);
+            Personel::create($data_to_update);
             
             return redirect(route('bapem.index'))->with('message', 'Personel Berhasil Ditambahkan!');
 
@@ -69,14 +71,7 @@ class PersonelController extends Controller
             Storage::delete($request->foto);
             }
 
-            $foto = $request->file('foto');
-            $name = 'personel-'.$request->nik.'.'.$foto->getClientOriginalExtension();
-
-            $path = $foto->move('avatar',$name);
-
-            $personel = Personel::findOrFail($id);
-
-            $personel->update([
+            $data_to_update = [
                 'peran' =>$request->peran,
                 'nama' =>$request->nama,
                 'nik' =>$request->nik,
@@ -89,9 +84,18 @@ class PersonelController extends Controller
                 'provinsi' =>$request->provinsi,
                 'kabkot' =>$request->kabkot,
                 'kecamatan' =>$request->kecamatan,
-                'foto' =>$name
-            ]);
+            ];
+            
+            if($request->file('foto')){
+                $foto = $request->file('foto');
+                $name = 'personel-'.$request->nik.'.'.$foto->getClientOriginalExtension();
+                $path = $foto->move('avatar',$name);
+                $data_to_update['foto'] = $name;
+            }
 
+            $personel = Personel::findOrFail($id);
+            $personel->update($data_to_update);
+            
         return back()->with('message','Personel Berhasil Diupdate!');
         }
 

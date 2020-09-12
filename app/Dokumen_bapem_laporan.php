@@ -8,5 +8,9 @@ class Dokumen_bapem_laporan extends Model
 {
     protected $table = 'dokumen_bapem_laporan';
     protected $fillable = [
-    	'sasaran_id','kode_dokumen','volume','satuan','catatan','file'];
+    	'angkatan_id','kode_dokumen','kwitansi','volume','satuan','catatan','file','status','keterangan'];
+    protected $attributes = ['keterangan' => '-','status' => 'Belum Dicek'];
+    protected $rules =[
+        'catatan' => ['nullable']
+    ];
 }

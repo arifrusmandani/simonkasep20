@@ -9,7 +9,7 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.ico') }}">
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>SIMTKPLB | Beranda</title>
+        <title>SIMon KaSeP | Beranda</title>
         <!-- Bootstrap Core CSS -->
         <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
         <!-- owl slider CSS -->

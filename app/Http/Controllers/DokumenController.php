@@ -27,7 +27,6 @@ class DokumenController extends Controller
 
     public function store(Request $request)
     {
-    	$input = $request->all();
         Dokumen::create($request->all());
         return redirect('dokumen')->with('message', 'Dokumen Berhasil Ditambahkan!');
     }

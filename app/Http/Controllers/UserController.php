@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index()
     {
     	
-    	$users = User::orderBy('created_at', 'DESC')->paginate(10);
+    	$users = User::all();
         return view('users.index', compact('users'));
     }
     
@@ -41,10 +41,8 @@ class UserController extends Controller
             'password' => 'required|min:6',
             'role' => 'required|string|exists:roles,name'
         ]);
-
-        $user = User::firstOrCreate([
-            'email' => $request->email
-        ], [
+      $data_to_create = [
+            'email' => $request->email,
             'name' => $request->name,
             'instansi' => $request->instansi,
             'alamat' => $request->alamat,
@@ -52,13 +50,19 @@ class UserController extends Controller
             'kabkot' => $request->kabkot,
             'kecamatan' => $request->kecamatan,
             'npwp' => $request->npwp,
-            'foto' => $request->foto,
             'password' => bcrypt($request->password)
-            // 'status' => true
-        ]);
+      ]; 
+      if($request->file('foto')){
+          $foto = $request->file('foto');
+          $rename = 'avatar-'.$request->email.'.'.$foto->getClientOriginalExtension();
+          $path = $foto->move('avatar', $rename);
+          $data_to_create['foto'] = $rename;
+      }
+        
+      $user = User::create($data_to_create);
 
       $user->assignRole($request->role);
-      return redirect(route('users.index'))->with(['success' => 'User: <strong>' . $user->name . '</strong> Ditambahkan']);
+      return redirect(route('users.index'))->with(['message' => 'User: <strong>' . $user->name . '</strong> Ditambahkan']);
     }
 
     public function edit($id)
@@ -78,24 +82,27 @@ class UserController extends Controller
       if ($request->user()->foto) {
           Storage::delete($request->user()->foto);
       }
-      $foto = $request->file('foto');
-      $rename = 'avatar-'.$request->user()->id.'.'.$foto->getClientOriginalExtension();
-      $path = $foto->move('avatar', $rename);
       
-
+      $data_to_update = [
+            'name' => $request->name,
+            'instansi' => $request->instansi,
+            'alamat' => $request->alamat,
+            'provinsi' => $request->provinsi,
+            'kabkot' => $request->kabkot,
+            'kecamatan' => $request->kecamatan,
+            'npwp' => $request->npwp,
+      ];
+      if($request->file('foto')){
+          $foto = $request->file('foto');
+          $rename = 'avatar-'.$id.'.'.$foto->getClientOriginalExtension();
+          $path = $foto->move('avatar', $rename);
+          $data_to_update['foto'] = $rename;
+      }
+      
       $user = User::findOrFail($id);
       $password = !empty($request->password) ? bcrypt($request->password):$user->password;
-      $user->update([
-        'name' => $request->name,
-        'password' => $password,
-        'instansi' => $request->instansi,
-        'alamat' => $request->alamat,
-        'provinsi' => $request->provinsi,
-        'kabkot' => $request->kabkot,
-        'kecamatan' => $request->kecamatan,
-        'npwp' => $request->npwp,
-        'foto' => $rename
-      ]);
+      $data_to_update['password'] = $password;
+      $user->update($data_to_update);
       return redirect(route('users.index'))->with(['message' => 'User: <strong>' . $user->name . '</strong> Diperbaharui']);
     }
 
@@ -121,7 +128,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
         $user->syncRoles($request->role);
-        return redirect()->back()->with(['success' => 'Role Sudah Di Set']);
+        return redirect()->back()->with(['message' => 'Role Sudah Di Set']);
     }
 
     public function rolePermission(Request $request)
@@ -163,7 +170,7 @@ class UserController extends Controller
     {
         $role = Role::findByName($role);
         $role->syncPermissions($request->permission);
-        return redirect()->back()->with(['success' => 'Permission to Role Saved!']);
+        return redirect()->back()->with(['message' => 'Permission to Role Saved!']);
     }
 
 

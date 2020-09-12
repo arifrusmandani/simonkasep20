@@ -13,14 +13,6 @@
 </div>
 @endsection
 @section('content')
-
-
-@if(session('message'))
-<div class="alert alert-success">
-  {{session('message')}}
-</div>
-@endif
-
     <section class="content">
               <div class="container-fluid">
                   <div class="row">
@@ -57,9 +49,9 @@
                                             <td>
                                                 @foreach ($roles as $row)
                                                 <div class="custom-control custom-radio">
-                                                  <input type="radio" class="custom-control-input" id="defaultUnchecked" name="role" {{ $user->hasRole($row) ? 'checked':'' }}
+                                                 <input type="radio" class="custom-control-input" id="{{$row}}" name="role" {{ $user->hasRole($row) ? 'checked':'' }}
                                                     value="{{ $row }}">
-                                                  <label class="custom-control-label" for="defaultUnchecked">{{  $row }}</label>
+                                                  <label class="custom-control-label" for="{{$row}}">{{  $row }}</label> 
                                                 </div>
                                                 @endforeach
                                             </td>

@@ -8,17 +8,17 @@
     <div class="row banner-text">
         <div class="col-md-6 m-t-20">
             <div> <img src="{{ asset('assets/images/logo3.jpg')}}" alt="Logo simTKPLB" /> </div>
-            <h1>SI<span class="text-info">BAPEM</span> </h1>
-            <h3>adalah laman Sistem Informasi Bantuan Pemerintah</h3>
-            <h3>PPPPTK TK DAN PLB</h3>
-            <h3>yang mengelola pelaporan dokumen bantuan pemerintah, menuju suatu pemerintahan yang berbasis elektronik (e-Government).</h3>
+            <h1>SIMon<span class="text-info"> BanPem KaSeP</span> </h1>
+            <h3>adalah laman Sistem Informasi Monitoring Bantuan Pemerintah
+            Kepala Sekolah PPPPTK TK DAN PLB yang mengelola pelaporan dokumen bantuan pemerintah, menuju suatu pemerintahan yang berbasis elektronik (e-Government).</h3>
 
         </div>
         <div class="col-md-6">
+        <img src="{{ asset('assets/images/bg-header.jpg')}}" alt="" width="100%">
             {{--
             <div class="hero-banner"> <img src="{{ asset('assets/images/material-admin-logo.png')}}" alt="Material Pro admin template" /> </div> --}}
 
-            <div class="col-md-9 p-20">
+            <!-- <div class="col-md-9 p-20">
                 <div id="carouselExampleIndicators3" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators3" data-slide-to="0" class="active"></li>
@@ -63,7 +63,7 @@
                                                     <span class="sr-only">Next</span>
                                                 </a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -73,7 +73,7 @@
 
 <div class="card card-outline-inverse">
         <div class="card-header">
-            <h4 class="m-b-0 text-white text-center">Sistem Informasi Bantuan Pemerintah</h4></div>
+            <h4 class="m-b-0 text-white text-center">Menu SIMon KaSeP</h4></div>
         <div class="card-body bg-theme">
             <div class="row">
                 <div class="col-xs-12 col-md-4">
@@ -110,13 +110,13 @@
                                         <a href="#" target="_blank">
                                             <div class="user-img"> <span class="round">pnt</i></span> </div>
                                             <div class="mail-contnet">
-                                                <h5>Tentang SiBapem</h5>
+                                                <h5>Tentang SIMon KaSeP</h5>
                                             </div>
                                         </a>
-                                        <a href="#" target="_blank">
-                                            <div class="user-img"> <span class="round">thir</i></span> </div>
+                                        <a href="/bapem" target="_blank">
+                                            <div class="user-img"> <span class="round">msk</i></span> </div>
                                             <div class="mail-contnet">
-                                                <h4>Sistem Informasi Bantuan Pemerintah</h4> </div>
+                                                <h4>Masuk Ke Sistem Informasi Bantuan Pemerintah</h4> </div>
                                         </a>
                                         <a href="#" target="_blank">
                                             <div class="user-img"> <span class="round">reg</i></span> </div>
@@ -277,8 +277,6 @@
             </div>
         </div> -->
 
-
-        <hr>
 <!-- ============================================================== -->
 <!-- SIM PUSAT -->
 <!-- ============================================================== -->
@@ -371,10 +369,10 @@
 <!-- ============================================================== -->
 <!-- Testimonial -->
 <!-- ============================================================== -->
-<div class="row light-blue">
+<!-- <div class="row light-blue">
     <div class="col-md-12">
         <div class="fix-width text-center"> <small class="text-info">Segera Hadir</small>
-            <!-- <h2 class="display-7">What Real Buyers have to <br/>Say about MaterialPro Admin</h2>
+             <h2 class="display-7">What Real Buyers have to <br/>Say about MaterialPro Admin</h2>
                                 <div class="tesimonial-box owl-carousel owl-theme" id="owl-demo2">
                                     <div class="item">
                                         <p class="testimonial-text"><b class="font-500">The free version is incredible and it had everything I needed, however I bought this full template to support the developer. It’s a great, lightweight template which has loads of awesome little features and pre-made layouts to help kick-start your next admin panel, CMS, or CRM system. Keep up the good work!</b>                                        </p>
@@ -388,14 +386,14 @@
                                         <p class="testimonial-text"><b class="font-500">in my opinion, MaterialPro Admin is a professional light-weight theme that will suit multiple projects types including MVC web-projects & dashboard-type user interface. I am yet to take a deep dive into the many features it offers. But from a first-hand experience, I would say it is really worth the money you pay for it… Go ahead & give it a try</b>                                        </p>
                                         <div class="username"><b>Mohammed Shameem<br/><small class="text-danger"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></small></b></div>
                                     </div>
-                                </div>-->
+                                </div>
         </div>
     </div>
-</div>
+</div>-->
 <!-- ============================================================== -->
 <!-- Call to action bar -->
 <!-- ============================================================== -->
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-12 call-to-action bg-success">
         <div class="fix-width">
             <div class="row">
@@ -404,7 +402,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- ============================================================== -->
 <!-- End Page Content -->
 <!-- ============================================================== -->
