@@ -34,6 +34,7 @@ class BapemController extends Controller
         $listbapemall = \DB::table('listbapem')
                         ->join('users','users.id','=','listbapem.user_id')
                         ->select('*','listbapem.id as list_id')
+                        ->where('tahun',session::get('tahunaktif'))
                         ->get();
         ;
         

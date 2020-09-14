@@ -29,8 +29,8 @@ class HomeController extends Controller
         $tahunaktif = Session::get('tahunaktif');
         }
         else{
-
-          Session(['tahunaktif'=>'2018']);
+          $date = date('Y');
+          Session(['tahunaktif'=>$date]);
           Session::save();
         }
         // dd(session()->all());
