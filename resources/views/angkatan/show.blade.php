@@ -464,7 +464,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <embed src="" id="viewdok" class="m-t-30" type="application/pdf" width="100%" height="600px">
+                                    <iframe src="" id="viewdok" class="m-t-30" type="application/pdf" width="100%" height="600px"></iframe>
                                 </div>
                             </div>
                         </div>
