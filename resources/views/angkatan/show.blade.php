@@ -390,7 +390,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="ribbon ribbon-left ribbon-default m-t-min-20">Dokumen</div>
-                                    <embed src="" id="verlaporan" class="m-t-30" type="application/pdf" width="100%" height="600px">
+                                    <iframe src="" id="verlaporan" class="m-t-30" type="application/pdf" width="100%" height="600px"></iframe>
                                 </div>
                             </div>
                             <div class="col-md-4">
