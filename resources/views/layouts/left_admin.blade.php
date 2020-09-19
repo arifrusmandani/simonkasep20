@@ -22,8 +22,8 @@
                         @role('pengguna')
                         <li class="nav-small-cap">USER MENU</li>
                         @endrole
-                        {{-- <li> <a class="waves-effect waves-dark" href="{{route('home')}}" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Home </span></a>
-                         </li> --}}
+                        <li> <a class="waves-effect waves-dark" href="{{route('home')}}" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Home </span></a>
+                         </li>
                         <!-- <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="index.html">Menu 1</a></li>
@@ -43,17 +43,16 @@
                         <li> <a class="waves-effect waves-dark" href="/dokumen" aria-expanded="false"><i class="mdi mdi-folder-multiple"></i><span class="hide-menu">Kelola Dokumen</span></a>
                         </li>
                         @endrole
-                        {{-- <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">Kelola Bapem </span></a>
+                        {{-- 
+                            <li> <a class="waves-effect waves-dark" href="/home" aria-expanded="false"><i class="mdi mdi-mdi-home-variant"></i><span class="hide-menu">Home</span></a>
+                            <li> <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">Kelola Bapem </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{action ('PersonelController@index')}}">Personel</a></li>
                                 <li><a href="{{ route('sasaran.index') }}">Sasaran</a></li>
                                 <li><a href="/dokumen">Dokumen</a></li>
                             </ul>
                         </li> --}}
-                        <li> <a class="waves-effect waves-dark" href="{{ route('bapem.index') }}" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">Kelola Bapem </span></a>
-                        
-
-                        
+                        <li> <a class="waves-effect waves-dark" href="{{ route('bapem.index') }}" aria-expanded="false"><i class="mdi mdi-laptop-windows"></i><span class="hide-menu">Kelola Bapem </span></a>             
                                               
                     </ul>
                 </nav>

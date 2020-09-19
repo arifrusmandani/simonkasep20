@@ -4,7 +4,9 @@
                         <div class="col-md-12">
                         <div class="form-group">
                             <div class="controls">
-                                <?php $user_list = App\User::where('name', '!=', null)->pluck('name', 'id')->all();?>
+                                <?php $roleName='pengguna';
+                                $user_list = App\User::whereHas('roles', function ($q) use ($roleName) {
+                                    $q->where('name', $roleName);})->pluck('name', 'id')->all();?>
                                     <label for="recipient-name" class="control-label">Penerima:</label>
                                     <div class="controls">{!! Form::select('user_id', [''=>'Pilih Penerima'] + $user_list, null, ['class' => 'form-control','id'=>'userid','required data-validation-required-message'=>'Tidak Boleh Kosong']) !!}</div>
                             </div>
