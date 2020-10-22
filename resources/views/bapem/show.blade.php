@@ -360,9 +360,9 @@
                             @role('administrator')
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <?php $penerima_list = App\User::where('name', '!=', null)->pluck('name', 'name')->all();?>
-                                    <label for="recipient-name" class="control-label">Penerima:</label>
-                                    <div class="controls">{!! Form::select('penerima_bapem', [''=>'Penerima Bapem'] + $penerima_list, null, ['class' => 'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong']) !!}</div>
+                                    <?php $penerima_list = App\User::where('id', '=', $list_bapem->user_id)->pluck('name', 'name')->first();?>
+                                    <!-- <label for="recipient-name" class="control-label">Penerima:</label> -->
+                                    {{ Form::text('penerima_bapem', $penerima_list,  ['class' => 'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong', 'hidden']) }}
                                     
                                 </div>
                             </div>
@@ -516,15 +516,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <?php $penerima_list = App\User::where('name', '!=', null)->pluck('name','name')->all();?>
-                                    <label for="recipient-name" class="control-label">Penerima:</label>
-                                     <div class="controls">{!! Form::select('penerima_bapem', [''=>'Penerima Bapem'] + $penerima_list, null, ['class' => 'form-control','id'=>'penerima','required data-validation-required-message'=>'Tidak Boleh Kosong']) !!}</div>
-                                </div>
-                            </div>
+                            <!-- <div class="col-md-6"> -->
+                                <!-- <div class="form-group"> -->
+                                    <?php $penerima_list = App\User::where('id', '=', $list_bapem->user_id)->pluck('name','name')->first();?>
+                                    <!-- <label for="recipient-name" class="control-label">Penerima:</label> -->
+                                   {{ Form::text('penerima_bapem', $penerima_list,  ['class' => 'form-control','required data-validation-required-message'=>'Tidak Boleh Kosong', 'hidden']) }}
+                                <!-- </div> -->
+                            <!-- </div> -->
                             
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                         <label>Area Bapem</label>
                                         <div class="controls">{!! Form::text('area_bapem',null,['class'=>'form-control','id'=>'area','required data-validation-required-message'=>'Tidak Boleh Kosong'])!!}</div>
